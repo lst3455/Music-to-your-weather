@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useRef } from "react";
 import { GoogleMap, useJsApiLoader, InfoWindow } from "@react-google-maps/api";
-
+import WeatherDataFetch from "../weatherComponent/WeatherDataFetch";
 
 const defaultLocation = {
     lat: 1.2983117788159964,
@@ -11,7 +11,7 @@ const mapContainerStyle = {
     height: "302px",
     marginTop: "16px",
     borderRadius: "15px",
-    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.45)",
     border: "2px solid #d9d9d9",
 };
 
@@ -72,7 +72,6 @@ const Map = () => {
                     };
                     setLocation(newPos);
                     setShowInfoWindow(true);
-                    console.log("lat: " + location.lat + " lng: " + location.lng);
                 },
                 () => {
                     alert("Failed to retrieve your location");
@@ -89,16 +88,22 @@ const Map = () => {
 
     return (
         <div>
+            {/* convert location to weather component */}
+            <WeatherDataFetch sharedLocation={{lat: location.lat, lng: location.lng}}/>
             <GoogleMap
                 mapContainerStyle={mapContainerStyle}
                 zoom={15}
                 center={location}
                 onLoad={onMapLoad}
             >
+
+                {/* when user click locate me, the location will be updated */}
                 {showInfoWindow && (
                     <InfoWindow position={location} onCloseClick={() => setShowInfoWindow(false)}>
                         <div>
-                            <h3 style={{ margin: "0"}}>Your Location</h3>
+                            <h3 style={{ margin: "0" }}>Your Location</h3>
+                            <p style={{ margin: "0" }}>Latitude: {location.lat}</p>
+                            <p style={{ margin: "0" }}>Longitude: {location.lng}</p>
                         </div>
                     </InfoWindow>
                 )}
