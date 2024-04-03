@@ -2,22 +2,17 @@ body {
     margin: 0;
     font-family: 'Inria Serif', serif;
     background-color: #fff;
-
     background-image: url('./components/asset/background.jpg');
-    /* Replace with your image path */
     background-size: cover;
-    /* Cover the entire viewport */
     background-position: center;
-    /* Center the image */
     background-repeat: no-repeat;
-    /* Do not repeat the image */
 }
 
 .container {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 80px 60px;
+    padding: 25px 60px 25px 60px;
 }
 
 @media (max-width: 991px) {

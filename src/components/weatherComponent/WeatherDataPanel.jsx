@@ -105,7 +105,7 @@ const styles = {
         justifyContent: 'center',
         width: '43px',
         height: '43px',
-        padding: '0 3px',
+        // padding: '0 3px',
     },
     img: {
         aspectRatio: 1,
@@ -146,7 +146,7 @@ const styles = {
         justifyContent: 'center',
         width: '43px',
         height: '43px',
-        padding: '0 3px',
+        // padding: '0 3px',
     },
     div17: {
         display: 'flex',
@@ -214,7 +214,7 @@ const WeatherDataPanel = (pros) => {
                         />
                     </div>
                     <div style={styles.div17}>
-                        <div style={styles.div18}>Your Weather:</div>
+                        <div style={styles.div18}>Your Location Weather:</div>
                         <div style={styles.div19}>{pros.sharedWeather.forecast}</div>
                     </div>
                 </div>
