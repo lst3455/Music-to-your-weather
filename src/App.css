@@ -301,8 +301,7 @@ body {
     }
 }
 
-.img {
-    aspect-ratio: 1;
+.circle {
     object-fit: auto;
     object-position: center;
     width: 32px;
