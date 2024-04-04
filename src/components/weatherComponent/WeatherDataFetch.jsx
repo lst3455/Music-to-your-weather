@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import WeatherDataPanel from "./WeatherDataPanel";
 
-const WeatherDataFetch = (pros) => {
+const WeatherDataFetch = (props) => {
 
   const [weatherData, setWeatherData] = useState(null);
   const [forecast, setForecast] = useState(null);
@@ -22,7 +22,7 @@ const WeatherDataFetch = (pros) => {
       return (x * Math.PI) / 180;
     }
 
-    var R = 6371; // 地球半径（千米）
+    var R = 6371; // Radius of the earth in km
     var dLat = toRad(lat2 - lat1);
     var dLon = toRad(lon2 - lon1);
     var a =
@@ -44,8 +44,8 @@ const WeatherDataFetch = (pros) => {
 
       weatherData.area_metadata.forEach((area) => {
         const distance = getDistance(
-          pros.sharedLocation.lat,
-          pros.sharedLocation.lng,
+          props.sharedLocation.lat,
+          props.sharedLocation.lng,
           area.label_location.latitude,
           area.label_location.longitude
         );
@@ -63,16 +63,16 @@ const WeatherDataFetch = (pros) => {
       if (areaForecast) {
         setForecast(areaForecast.forecast);
         console.log(forecast);
-      }else{
+      } else {
         window.alert("No forecast available for your location");
       }
     };
     findNearestForecast();
-  }, [weatherData, pros.sharedLocation]); // This effect runs when weatherData or sharedLocation changes
+  }, [weatherData, props.sharedLocation]); // This effect runs when weatherData or sharedLocation changes
 
   return (
     <>
-      <WeatherDataPanel sharedWeather={{region: nearestArea, forecast: forecast}}/>
+      <WeatherDataPanel sharedWeather={{ region: nearestArea, forecast: forecast }}/>
     </>
   );
 }

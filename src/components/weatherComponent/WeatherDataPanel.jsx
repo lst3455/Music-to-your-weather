@@ -1,38 +1,5 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 
-// const weatherCardContainerStyle = {
-//     display: "flex",
-//     gap: "15px",
-//     flexGrow: 1,
-//     color: "#fff",
-//     fontSize: "20px",
-//     fontWeight: 700,
-// }
-
-// const weatherCardStyle = {
-//     display: "flex",
-//     gap: "20px",
-//     flex: 1,
-//     padding: "15px 18px",
-//     borderRadius: "15px",
-//     backgroundColor: "#9a9a9a",
-//     boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-// }
-
-// const WeatherDataStyle = {
-//     margin: "auto 0",
-//     flexGrow: 1,
-//     fontFamily: "'Inria Serif', sans-serif",
-//     fontSize: "14px",
-// }
-
-// const WeatherIconStyle = {
-//     width: "43px",
-//     height: "43px",
-//     borderRadius: "50%",
-//     backgroundColor: "#fff",
-//     objectFit: "cover",
-// }
 
 const styles = {
     div4: {
@@ -85,8 +52,14 @@ const styles = {
         boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
         alignItems: 'start',
         justifyContent: 'center',
-        padding: '3px 21px',
+        padding: '10px 26px',
         cursor: 'pointer',
+        transition: 'all 0.3s ease' // Ensure smooth transition for hover effect
+    },
+    div9_hover: {
+        backgroundColor: 'rgb(141, 141, 141)',
+        boxShadow: '0px 6px 6px rgba(0, 0, 0, 0.65)',
+        transform: 'scale(1.05)',
     },
     div10: {
         borderRadius: '15px',
@@ -166,28 +139,82 @@ const styles = {
     },
 };
 
-const WeatherDataPanel = (pros) => {
+const WeatherDataPanel = (props) => {
+    const [isHovered, setIsHovered] = useState(false); // use for go button hover effect
+    const [latitude, setLatitude] = useState('');
+    const [longitude, setLongitude] = useState('');
+
+    const [forecast, setForecast] = useState(props.sharedWeather.forecast);
+    const [nearestArea, setNearestArea] = useState(props.sharedWeather.region);
+
+    useEffect(() => {
+        setForecast(props.sharedWeather.forecast);
+        setNearestArea(props.sharedWeather.region);
+    }, [props.sharedWeather]); // This effect runs when sharedWeather(object) changes
+
+    const handleFetchWeather = async () => {
+        const url = `https://api.data.gov.sg/v1/environment/2-hour-weather-forecast`;
+        const getDistance = (lat1, lon1, lat2, lon2) => {
+            const toRad = (x) => {
+                return (x * Math.PI) / 180;
+            }
+
+            var R = 6371;
+            var dLat = toRad(lat2 - lat1);
+            var dLon = toRad(lon2 - lon1);
+            var a =
+                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(toRad(lat1)) *
+                Math.cos(toRad(lat2)) *
+                Math.sin(dLon / 2) *
+                Math.sin(dLon / 2);
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c;
+        }
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            let nearestDistance = Infinity;
+            let nearestArea = null;
+            let areaForecast = null;
+
+            data.area_metadata.forEach((area) => {
+                const distance = getDistance(
+                    latitude,
+                    longitude,
+                    area.label_location.latitude,
+                    area.label_location.longitude
+                );
+                if (distance < nearestDistance) {
+                    nearestDistance = distance;
+                    nearestArea = area.name;
+                    areaForecast = data.items[0].forecasts.find((f) => f.area === area.name);
+                }
+            });
+
+            if (areaForecast) {
+                setNearestArea(nearestArea);
+                setForecast(areaForecast.forecast);
+            } else {
+                window.alert("No forecast available for your location");
+            }
+        } catch (error) {
+            console.error("Failed to fetch weather data", error);
+            window.alert("Failed to fetch weather data");
+        }
+    };
+
+
     return (
         <div>
-            {/* <div style={weatherCardStyle}>
-                <img src={cityIcon} style={WeatherIconStyle} />
-                <div style={WeatherDataStyle}>{pros.sharedWeather.region}</div>
-            </div>
-            <div style={weatherCardStyle}>
-                <img src={weatherIcon} style={WeatherIconStyle} />
-                <div style={WeatherDataStyle}>{pros.sharedWeather.forecast}</div>
-            </div>
-            <div style={weatherCardStyle}>
-                <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/06e657045a0430b15da43230976cd2ce7451ac7170fe0fcffde0d716c78191b7?apiKey=5c507e50f5eb47f29838914047d19c51&" alt="Wind Speed" class="weather-icon" />
-                <div style={WeatherDataStyle}>windspeed</div>
-            </div> */}
-
             <div style={styles.div4}>
                 <div style={styles.div5}>
-                    <input type="text" style={styles.div6} placeholder="input a latitude"></input>
+                    <input type="text" style={styles.div6} placeholder="input a latitude" value={latitude} onChange={(e) => setLatitude(e.target.value)}></input>
                     <div style={styles.div7}>
-                        <input type="text" style={styles.div8} placeholder="input a longitude"></input>
-                        <button style={styles.div9} onClick={() => {window.alert("button click")}}>go</button>
+                        <input type="text" style={styles.div8} placeholder="input a longitude" value={longitude} onChange={(e) => setLongitude(e.target.value)}></input>
+                        <button style={isHovered ? { ...styles.div9, ...styles.div9_hover } : styles.div9}
+                            onMouseEnter={() => setIsHovered(true)}
+                            onMouseLeave={() => setIsHovered(false)} onClick={handleFetchWeather}>go</button>
                     </div>
                 </div>
                 <div className="location" style={styles.div10}>
@@ -201,7 +228,7 @@ const WeatherDataPanel = (pros) => {
                     </div>
                     <div style={styles.div12}>
                         <div style={styles.div13}>Your Location:</div>
-                        <div style={styles.div14}>{pros.sharedWeather.region}</div>
+                        <div style={styles.div14}>{nearestArea}</div>
                     </div>
                 </div>
                 <div className="weather" style={styles.div15}>
@@ -215,7 +242,7 @@ const WeatherDataPanel = (pros) => {
                     </div>
                     <div style={styles.div17}>
                         <div style={styles.div18}>Your Location Weather:</div>
-                        <div style={styles.div19}>{pros.sharedWeather.forecast}</div>
+                        <div style={styles.div19}>{forecast}</div>
                     </div>
                 </div>
             </div>
