@@ -44,8 +44,8 @@ const WeatherDataFetch = (props) => {
 
       weatherData.area_metadata.forEach((area) => {
         const distance = getDistance(
-          props.sharedLocation.lat,
-          props.sharedLocation.lng,
+          props.locationToFetch.lat,
+          props.locationToFetch.lng,
           area.label_location.latitude,
           area.label_location.longitude
         );
@@ -56,23 +56,26 @@ const WeatherDataFetch = (props) => {
       });
 
       setNearestArea(nearestArea);
-      console.log(nearestArea);
       const areaForecast = weatherData.items[0].forecasts.find(
         (f) => f.area === nearestArea
       );
       if (areaForecast) {
         setForecast(areaForecast.forecast);
-        console.log(forecast);
       } else {
         window.alert("No forecast available for your location");
       }
     };
     findNearestForecast();
-  }, [weatherData, props.sharedLocation]); // This effect runs when weatherData or sharedLocation changes
+  }, [weatherData, props.locationToFetch]); // This effect runs when weatherData or sharedLocation changes
 
+  useEffect(() => {
+    props.setWeatherToMap(forecast);
+    props.setRegionToMap(nearestArea);
+  }, [nearestArea, forecast]); // This effect runs when sharedWeather(object) changes
+  
   return (
     <>
-      <WeatherDataPanel sharedWeather={{ region: nearestArea, forecast: forecast }}/>
+      {/* <WeatherDataPanel sharedWeather={{ region: nearestArea, forecast: forecast }}/> */}
     </>
   );
 }

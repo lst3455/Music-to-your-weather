@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import { GoogleMap, useJsApiLoader, InfoWindow } from "@react-google-maps/api";
 import WeatherDataFetch from "../weatherComponent/WeatherDataFetch";
 
@@ -45,14 +45,38 @@ const LocationButton = ({ onLocate }) => {
     return button;
 };
 
-const Map = () => {
+const Map = (props) => {
+    const [region, setRegion] = useState(null);
+    const [weather, setWeather] = useState(null);
+
+    const getRegion = (data) => {
+        setRegion(data);
+    }
+
+    const getWeather = (data) => {
+        setWeather(data);
+    };
+
+    useEffect(() => {
+        props.setWeatherToComp(weather);
+        props.setRegionToComp(region);
+    }, [region, weather]);
+
+
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey: "AIzaSyBLi-h_l_iWNI6WYMxwgG8dHEl_fad_iDw",
     });
 
     const [location, setLocation] = useState(defaultLocation);
+
+    // const [locationFromPanel, setLocationFromPanel] = useState(defaultLocation);
     const [showInfoWindow, setShowInfoWindow] = useState(false);
     const mapRef = useRef(null);
+
+    useEffect(() => {
+        setLocation({ lat: props.LatitudeFromPanelToMap, lng: props.LongitudeFromPanelToMap });
+        console.log("updated location by props.LatitudeFromPanelToMap, props.LongitudeFromPanelToMap");
+    }, [props.LatitudeFromPanelToMap, props.LongitudeFromPanelToMap]);
 
     const onMapLoad = useCallback((map) => {
         mapRef.current = map;
@@ -72,6 +96,10 @@ const Map = () => {
                     };
                     setLocation(newPos);
                     setShowInfoWindow(true);
+
+                    // 调用传入的回调函数来更新Composition组件的经纬度状态
+                    props.setLatitudeToComp(newPos.lat);
+                    props.setLongitudeToComp(newPos.lng);
                 },
                 () => {
                     alert("Failed to retrieve your location");
@@ -89,7 +117,7 @@ const Map = () => {
     return (
         <div>
             {/* convert location to weather component */}
-            <WeatherDataFetch sharedLocation={{lat: location.lat, lng: location.lng}}/>
+            <WeatherDataFetch locationToFetch={{ lat: location.lat, lng: location.lng }} setWeatherToMap={getWeather} setRegionToMap={getRegion} />
             <GoogleMap
                 mapContainerStyle={mapContainerStyle}
                 zoom={15}

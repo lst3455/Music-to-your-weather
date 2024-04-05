@@ -1,7 +1,6 @@
-import Map from "./components/mapComponent/Map.jsx";
+
 import "./App.css";
-import Music from "./components/musicComponent/Music.jsx";
-import Calendar from "./components/calendarComponent/Calendar.jsx";
+import Compostion from "./components/componentCompostion/Compostion.jsx";
 
 function App() {
   return (
@@ -20,26 +19,7 @@ function App() {
               alt="Descriptive alternative text for the image"
             />
           </div>
-          <div class="main-content">
-            <div class="left-column">
-              <div class="weather-details">
-                <Map />
-              </div>
-            </div>
-            <div class="right-column">
-              <div class="calendar">
-                <Calendar />
-              </div>
-              <div class="button-container">
-                <button class="button">generate</button>
-                <button class="button button-favorite">favorite</button>
-                <button class="button button-right">like</button>
-              </div>
-            </div>
-          </div>
-          <div class="music">
-            <Music />
-          </div>
+          <Compostion />
         </div>
       </div>
     </div>

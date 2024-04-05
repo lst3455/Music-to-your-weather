@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 
 const styles = {
@@ -100,7 +100,7 @@ const styles = {
     },
     div14: {
         textShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-        font: '12px Inria Serif, sans-serif',
+        font: '10px Inria Serif, sans-serif',
     },
     div15: {
         borderRadius: '15px',
@@ -135,7 +135,7 @@ const styles = {
     div19: {
         textShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
         marginTop: '4px',
-        font: '12px Inria Serif, sans-serif',
+        font: '10px Inria Serif, sans-serif',
     },
 };
 
@@ -144,13 +144,21 @@ const WeatherDataPanel = (props) => {
     const [latitude, setLatitude] = useState('');
     const [longitude, setLongitude] = useState('');
 
-    const [forecast, setForecast] = useState(props.sharedWeather.forecast);
-    const [nearestArea, setNearestArea] = useState(props.sharedWeather.region);
+    const [forecast, setForecast] = useState('');
+    const [nearestArea, setNearestArea] = useState('');
 
     useEffect(() => {
-        setForecast(props.sharedWeather.forecast);
-        setNearestArea(props.sharedWeather.region);
-    }, [props.sharedWeather]); // This effect runs when sharedWeather(object) changes
+        setForecast(props.WeatherDateFromMapToPanel.forecast);
+        setNearestArea(props.WeatherDateFromMapToPanel.region);
+        console.log("updated weather data by props.WeatherDateFromMapToPanel");
+    }, [props.WeatherDateFromMapToPanel.region,props.WeatherDateFromMapToPanel.forecast]); // This effect runs when sharedWeather changes
+
+    // useEffect(() => {
+    //     props.setWeatherToComp(forecast);
+    //     props.setRegionToComp(nearestArea);
+    //     console.log("updated weather data by nearestArea and forecast");
+    // }, [nearestArea,forecast]); // This effect runs when sharedWeather(object) changes
+
 
     const handleFetchWeather = async () => {
         const url = `https://api.data.gov.sg/v1/environment/2-hour-weather-forecast`;
@@ -195,6 +203,7 @@ const WeatherDataPanel = (props) => {
             if (areaForecast) {
                 setNearestArea(nearestArea);
                 setForecast(areaForecast.forecast);
+
             } else {
                 window.alert("No forecast available for your location");
             }
@@ -209,12 +218,19 @@ const WeatherDataPanel = (props) => {
         <div>
             <div style={styles.div4}>
                 <div style={styles.div5}>
-                    <input type="text" style={styles.div6} placeholder="input a latitude" value={latitude} onChange={(e) => setLatitude(e.target.value)}></input>
+                    <input type="text" style={styles.div6} placeholder="input a lat to go" value={latitude} onChange={(e) => setLatitude(e.target.value)}></input>
                     <div style={styles.div7}>
-                        <input type="text" style={styles.div8} placeholder="input a longitude" value={longitude} onChange={(e) => setLongitude(e.target.value)}></input>
+                        <input type="text" style={styles.div8} placeholder="input a lng to go" value={longitude} onChange={(e) => setLongitude(e.target.value)}></input>
                         <button style={isHovered ? { ...styles.div9, ...styles.div9_hover } : styles.div9}
                             onMouseEnter={() => setIsHovered(true)}
-                            onMouseLeave={() => setIsHovered(false)} onClick={handleFetchWeather}>go</button>
+                            onMouseLeave={() => setIsHovered(false)}
+                            onClick={() => {
+                                handleFetchWeather();
+                                props.setLatitudeToComp(latitude);
+                                props.setLongitudeToComp(longitude);
+                            }}
+                        >go
+                        </button>
                     </div>
                 </div>
                 <div className="location" style={styles.div10}>
@@ -241,7 +257,7 @@ const WeatherDataPanel = (props) => {
                         />
                     </div>
                     <div style={styles.div17}>
-                        <div style={styles.div18}>Your Location Weather:</div>
+                        <div style={styles.div18}>Your Current Weather:</div>
                         <div style={styles.div19}>{forecast}</div>
                     </div>
                 </div>
