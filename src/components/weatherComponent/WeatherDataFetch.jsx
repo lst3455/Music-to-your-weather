@@ -71,7 +71,7 @@ const WeatherDataFetch = (props) => {
   useEffect(() => {
     props.setWeatherToMap(forecast);
     props.setRegionToMap(nearestArea);
-  }, [nearestArea, forecast]); // This effect runs when sharedWeather(object) changes
+  }, [nearestArea, forecast]); // This effect runs when nearestArea or forecast changes
   
   return (
     <>

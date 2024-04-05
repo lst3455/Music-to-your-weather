@@ -176,14 +176,14 @@ const getMusicParameters = (weather) => {
     console.error("Weather condition not recognized.");
     return {};
   }
-  // 将参数转换为 min/max 结构
   const parameterRanges = {};
   Object.keys(parameters).forEach((key) => {
     if (Array.isArray(parameters[key])) {
+      // change the parameters to string
       parameterRanges[`min_${key}`] = parameters[key][0].toString();
       parameterRanges[`max_${key}`] = parameters[key][1].toString();
     } else {
-      parameterRanges[key] = parameters[key].toString(); // 对于 mood 等非数组类型的属性，直接赋值
+      parameterRanges[key] = parameters[key].toString(); // change the parameters to string
     }
   });
   return parameterRanges;
@@ -227,8 +227,8 @@ const Music = (props) => {
     });
     const data = await response.json();
     console.log("token is: " + token);
-    console.log(data);
-    console.log(data.tracks[0].id);
+    // console.log(data);
+    console.log("new music id is: " + data.tracks[0].id);
     setMusicId(data.tracks[0].id);
   };
 
@@ -239,11 +239,11 @@ const Music = (props) => {
       return;
     }
     const musicParameters = getMusicParameters(props.weatherFromMapToMusic);
-    console.log(musicParameters);
+    // console.log(musicParameters);
     const url = `https://api.spotify.com/v1/recommendations?limit=1&market=SG&seed_genres=pop%2Cedm%2Cclassical%2Calternative%2Crock&min_acousticness=${musicParameters.min_acousticness}&max_acousticness=${musicParameters.max_acousticness}&min_tempo=${musicParameters.min_tempo}&max_tempo=${musicParameters.max_tempo}&min_valence=${musicParameters.min_valence}&max_valence=${musicParameters.max_valence}`;
     // const url = `https://api.spotify.com/v1/recommendations?limit=1&market=SG&seed_genres=pop%2Cedm%2Cclassical%2Calternative%2Crock&min_acousticness=0.5&max_acousticness=0.9&min_tempo=60&max_tempo=90&min_valence=0.6&max_valence=0.9`;
     getMusic(url);
-  }, [props.weatherFromMapToMusic, props.regionFromMapToMusic]);
+  }, [props.matchLocationClicked]);
 
   return (
     <div>
