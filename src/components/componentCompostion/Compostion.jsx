@@ -22,19 +22,39 @@ const Compostion = () => {
         console.log("weatherFromMap: " + weatherFromMap);
     }, [regionFromMap, weatherFromMap]);
 
+    // const getLatitudeFromPanel = (data) => {
+    //     setLatitudeFromPanel(data);
+
+    // }
+    // const getLongitudeFromPanel = (data) => {
+    //     setLongitudeFromPanel(data);
+
+    // }
+
     const getLatitudeFromPanel = (data) => {
-        setLatitudeFromPanel(data);
+        const num = parseFloat(data);
+        if (!isNaN(num) && num <= 1.47 && num >= 1.13) {
+            setLatitudeFromPanel(num);
+        } else {
+            console.error("Latitude is not a valid number(1.13-1.47).");
+            window.alert("Latitude is not a valid number(1.13-1.47).");
+        }
+    };
 
-    }
     const getLongitudeFromPanel = (data) => {
-        setLongitudeFromPanel(data);
+        const num = parseFloat(data);
+        if (!isNaN(num) && num <= 104.05 && num >= 103.60) {
+            setLongitudeFromPanel(num);
+        } else {
+            console.error("Longitude is not a valid number(103.60-104.05).");
+            window.alert("Longitude is not a valid number(103.60-104.05).");
+        }
+    };
 
-    }
     useEffect(() => {
         console.log("LatitudeFromPanel: " + LatitudeFromPanel);
         console.log("LongitudeFromPanel: " + LongitudeFromPanel);
     }, [{ LatitudeFromPanel, LongitudeFromPanel }]);
-
 
     return (
         <div>

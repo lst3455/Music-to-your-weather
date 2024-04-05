@@ -73,10 +73,20 @@ const Map = (props) => {
     const [showInfoWindow, setShowInfoWindow] = useState(false);
     const mapRef = useRef(null);
 
+
     useEffect(() => {
-        setLocation({ lat: props.LatitudeFromPanelToMap, lng: props.LongitudeFromPanelToMap });
-        console.log("updated location by props.LatitudeFromPanelToMap, props.LongitudeFromPanelToMap");
-    }, [props.LatitudeFromPanelToMap, props.LongitudeFromPanelToMap]);
+        if (isLoaded && !isNaN(props.LatitudeFromPanelToMap) && !isNaN(props.LongitudeFromPanelToMap) && isFinite(props.LatitudeFromPanelToMap) && isFinite(props.LongitudeFromPanelToMap)) {
+            const newPos = { lat: props.LatitudeFromPanelToMap, lng: props.LongitudeFromPanelToMap };
+            setLocation(newPos);
+        }
+    }, [props.LatitudeFromPanelToMap, props.LongitudeFromPanelToMap, isLoaded]); // This effect runs when LatitudeFromPanelToMap changes
+
+    useEffect(() => {
+        if (mapRef.current && location) {
+            mapRef.current.panTo({ lat: parseFloat(location.lat), lng: parseFloat(location.lng) });
+            setShowInfoWindow(true); // show info window when location is updated
+        }
+    }, [location]);
 
     const onMapLoad = useCallback((map) => {
         mapRef.current = map;
@@ -95,9 +105,7 @@ const Map = (props) => {
                         lng: position.coords.longitude,
                     };
                     setLocation(newPos);
-                    setShowInfoWindow(true);
-
-                    // 调用传入的回调函数来更新Composition组件的经纬度状态
+                    // set the location to the parent component
                     props.setLatitudeToComp(newPos.lat);
                     props.setLongitudeToComp(newPos.lng);
                 },
@@ -116,7 +124,7 @@ const Map = (props) => {
 
     return (
         <div>
-            {/* convert location to weather component */}
+            {/* convert location to WeatherDataFetch component */}
             <WeatherDataFetch locationToFetch={{ lat: location.lat, lng: location.lng }} setWeatherToMap={getWeather} setRegionToMap={getRegion} />
             <GoogleMap
                 mapContainerStyle={mapContainerStyle}
@@ -129,7 +137,7 @@ const Map = (props) => {
                 {showInfoWindow && (
                     <InfoWindow position={location} onCloseClick={() => setShowInfoWindow(false)}>
                         <div>
-                            <h3 style={{ margin: "0" }}>Your Location</h3>
+                            <h3 style={{ margin: "0" }}>Target Location</h3>
                             <p style={{ margin: "0" }}>Latitude: {location.lat}</p>
                             <p style={{ margin: "0" }}>Longitude: {location.lng}</p>
                         </div>

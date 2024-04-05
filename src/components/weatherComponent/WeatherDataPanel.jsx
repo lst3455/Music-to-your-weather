@@ -218,9 +218,9 @@ const WeatherDataPanel = (props) => {
         <div>
             <div style={styles.div4}>
                 <div style={styles.div5}>
-                    <input type="text" style={styles.div6} placeholder="input a lat to go" value={latitude} onChange={(e) => setLatitude(e.target.value)}></input>
+                    <input type="text" style={styles.div6} placeholder="input a lat(1.13-1.47) to go" value={latitude} onChange={(e) => setLatitude(e.target.value)}></input>
                     <div style={styles.div7}>
-                        <input type="text" style={styles.div8} placeholder="input a lng to go" value={longitude} onChange={(e) => setLongitude(e.target.value)}></input>
+                        <input type="text" style={styles.div8} placeholder="input a lng(103.60-104.05) to go" value={longitude} onChange={(e) => setLongitude(e.target.value)}></input>
                         <button style={isHovered ? { ...styles.div9, ...styles.div9_hover } : styles.div9}
                             onMouseEnter={() => setIsHovered(true)}
                             onMouseLeave={() => setIsHovered(false)}
