@@ -84,9 +84,9 @@ const Map = (props) => {
     useEffect(() => {
         if (mapRef.current && location) {
             mapRef.current.panTo({ lat: parseFloat(location.lat), lng: parseFloat(location.lng) });
-            setShowInfoWindow(true); // show info window when location is updated
+            setShowInfoWindow(true); // Show info window when location changes
         }
-    }, [location]);
+    }, [location]); 
 
     const onMapLoad = useCallback((map) => {
         mapRef.current = map;

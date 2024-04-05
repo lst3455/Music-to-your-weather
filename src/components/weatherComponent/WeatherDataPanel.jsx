@@ -151,7 +151,7 @@ const WeatherDataPanel = (props) => {
         setForecast(props.WeatherDateFromMapToPanel.forecast);
         setNearestArea(props.WeatherDateFromMapToPanel.region);
         console.log("updated weather data by props.WeatherDateFromMapToPanel");
-    }, [props.WeatherDateFromMapToPanel.region,props.WeatherDateFromMapToPanel.forecast]); // This effect runs when sharedWeather changes
+    }, [props.WeatherDateFromMapToPanel.region, props.WeatherDateFromMapToPanel.forecast]); // This effect runs when sharedWeather changes
 
     // useEffect(() => {
     //     props.setWeatherToComp(forecast);
@@ -161,13 +161,15 @@ const WeatherDataPanel = (props) => {
 
 
     const handleFetchWeather = async () => {
-        const url = `https://api.data.gov.sg/v1/environment/2-hour-weather-forecast`;
+        const lat = parseFloat(latitude);
+        const lng = parseFloat(longitude);
+
         const getDistance = (lat1, lon1, lat2, lon2) => {
             const toRad = (x) => {
                 return (x * Math.PI) / 180;
             }
 
-            var R = 6371;
+            var R = 6371; // Radius of the earth in km
             var dLat = toRad(lat2 - lat1);
             var dLon = toRad(lon2 - lon1);
             var a =
@@ -179,39 +181,45 @@ const WeatherDataPanel = (props) => {
             var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
             return R * c;
         }
-        try {
-            const response = await fetch(url);
-            const data = await response.json();
-            let nearestDistance = Infinity;
-            let nearestArea = null;
-            let areaForecast = null;
+        // 检查经纬度是否在有效范围内
+        if (!isNaN(lat) && lat >= 1.13 && lat <= 1.47 && !isNaN(lng) && lng >= 103.60 && lng <= 104.05) {
+            try {
+                const response = await fetch(`https://api.data.gov.sg/v1/environment/2-hour-weather-forecast`);
+                const data = await response.json();
+                let nearestDistance = Infinity;
+                let nearestArea = null;
+                let areaForecast = null;
 
-            data.area_metadata.forEach((area) => {
-                const distance = getDistance(
-                    latitude,
-                    longitude,
-                    area.label_location.latitude,
-                    area.label_location.longitude
-                );
-                if (distance < nearestDistance) {
-                    nearestDistance = distance;
-                    nearestArea = area.name;
-                    areaForecast = data.items[0].forecasts.find((f) => f.area === area.name);
+                data.area_metadata.forEach((area) => {
+                    const distance = getDistance(
+                        lat,
+                        lng,
+                        area.label_location.latitude,
+                        area.label_location.longitude);
+                    if (distance < nearestDistance) {
+                        nearestDistance = distance;
+                        nearestArea = area.name;
+                        areaForecast = data.items[0].forecasts.find((f) => f.area === nearestArea);
+                    }
+                });
+
+                if (areaForecast) {
+                    setNearestArea(nearestArea);
+                    setForecast(areaForecast.forecast);
+                    props.setLatitudeToComp(lat);
+                    props.setLongitudeToComp(lng);
+                } else {
+                    window.alert("No forecast available for your location.");
                 }
-            });
-
-            if (areaForecast) {
-                setNearestArea(nearestArea);
-                setForecast(areaForecast.forecast);
-
-            } else {
-                window.alert("No forecast available for your location");
+            } catch (error) {
+                console.error("Failed to fetch weather data", error);
+                window.alert("Failed to fetch weather data");
             }
-        } catch (error) {
-            console.error("Failed to fetch weather data", error);
-            window.alert("Failed to fetch weather data");
+        } else {
+            window.alert("Invalid input (Latitude must be between 1.13 and 1.47, Longitude must be between 103.60 and 104.05)");
         }
     };
+
 
 
     return (
@@ -226,8 +234,8 @@ const WeatherDataPanel = (props) => {
                             onMouseLeave={() => setIsHovered(false)}
                             onClick={() => {
                                 handleFetchWeather();
-                                props.setLatitudeToComp(latitude);
-                                props.setLongitudeToComp(longitude);
+                                // props.setLatitudeToComp(latitude);
+                                // props.setLongitudeToComp(longitude);
                             }}
                         >go
                         </button>
