@@ -153,13 +153,6 @@ const WeatherDataPanel = (props) => {
         console.log("updated weather data by props.WeatherDateFromMapToPanel");
     }, [props.WeatherDateFromMapToPanel.region, props.WeatherDateFromMapToPanel.forecast]); // This effect runs when sharedWeather changes
 
-    // useEffect(() => {
-    //     props.setWeatherToComp(forecast);
-    //     props.setRegionToComp(nearestArea);
-    //     console.log("updated weather data by nearestArea and forecast");
-    // }, [nearestArea,forecast]); // This effect runs when sharedWeather(object) changes
-
-
     const handleFetchWeather = async () => {
         const lat = parseFloat(latitude);
         const lng = parseFloat(longitude);
@@ -181,7 +174,7 @@ const WeatherDataPanel = (props) => {
             var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
             return R * c;
         }
-        // 检查经纬度是否在有效范围内
+        // check if the input is valid
         if (!isNaN(lat) && lat >= 1.13 && lat <= 1.47 && !isNaN(lng) && lng >= 103.60 && lng <= 104.05) {
             try {
                 const response = await fetch(`https://api.data.gov.sg/v1/environment/2-hour-weather-forecast`);

@@ -2,7 +2,7 @@ body {
     margin: 0;
     font-family: 'Inria Serif', serif;
     background-color: #fff;
-    background-image: url('./components/asset/background.jpg');
+    background-image: url('./components/asset/background2.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -167,7 +167,7 @@ body {
 .right-column {
     display: flex;
     flex-direction: column;
-    width: 30%;
+    /* width: 30%; */
 }
 
 @media (max-width: 991px) {

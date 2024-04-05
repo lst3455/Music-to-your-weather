@@ -10,6 +10,7 @@ const Compostion = () => {
     const [weatherFromMap, setWeatherFromMap] = useState(null);
     const [LatitudeFromPanel, setLatitudeFromPanel] = useState(1.2983117788159964);
     const [LongitudeFromPanel, setLongitudeFromPanel] = useState(103.77674571647856);
+    const [matchLocationClicked, setMatchLocationClicked] = useState(false);
 
     const getRegionFromMap = (data) => {
         setRegionFromMap(data);
@@ -35,6 +36,10 @@ const Compostion = () => {
         console.log("LongitudeFromPanel: " + LongitudeFromPanel);
     }, [{ LatitudeFromPanel, LongitudeFromPanel }]);
 
+    const matchByCurrentLocation = () => {
+        setMatchLocationClicked(!matchLocationClicked); // toggle the button state
+    };
+
     return (
         <div>
             <div class="main-content">
@@ -56,14 +61,14 @@ const Compostion = () => {
                     </div>
                 </div>
                 <div class="right-column">
-                    <div class="calendar">
-                        <Calendar
-                            LatitudeFromPanelToCalendar={LatitudeFromPanel}
-                            LongitudeFromPanelToCalendar={LongitudeFromPanel}
-                        />
-                    </div>
+                    {/* <div class="calendar"> */}
+                    <Calendar
+                        LatitudeFromPanelToCalendar={LatitudeFromPanel}
+                        LongitudeFromPanelToCalendar={LongitudeFromPanel}
+                    />
+                    {/* </div> */}
                     <div class="button-container">
-                        <button class="button">match by current Location</button>
+                        <button class="button" onClick={matchByCurrentLocation}>match by current Location</button>
                         <button class="button button-favorite">like</button>
                         {/* <button class="button button-right">like</button> */}
                     </div>
@@ -73,6 +78,7 @@ const Compostion = () => {
                 <Music
                     weatherFromMapToMusic={weatherFromMap}
                     regionFromMapToMusic={regionFromMap}
+                    matchLocationClicked={matchLocationClicked}
                 />
             </div>
         </div>
