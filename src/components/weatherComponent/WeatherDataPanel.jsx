@@ -206,6 +206,7 @@ const WeatherDataPanel = (props) => {
                 if (areaForecast) {
                     setNearestArea(nearestArea);
                     setForecast(areaForecast.forecast);
+                    // set latitude and longitude to parent component
                     props.setLatitudeToComp(lat);
                     props.setLongitudeToComp(lng);
                 } else {

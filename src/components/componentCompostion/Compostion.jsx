@@ -70,7 +70,10 @@ const Compostion = () => {
                 </div>
             </div>
             <div class="music">
-                <Music />
+                <Music
+                    weatherFromMapToMusic={weatherFromMap}
+                    regionFromMapToMusic={regionFromMap}
+                />
             </div>
         </div>
     );
