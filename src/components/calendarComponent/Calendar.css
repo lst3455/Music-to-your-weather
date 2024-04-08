@@ -15,7 +15,8 @@
 
 .calendar {
     border-radius: 15px;
-    background-color: rgba(196, 196, 196, 0.4); /* 设置为半透明 */
+    background-color: rgba(196, 196, 196, 0.4);
+    /* 设置为半透明 */
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.35);
     /* height: 339px; */
     height: 330px;
@@ -58,7 +59,8 @@
     white-space: nowrap;
     padding: 10px 32px;
 
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for scale and shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* Smooth transition for scale and shadow */
 }
 
 @media (max-width: 991px) {
@@ -69,9 +71,12 @@
 }
 
 .button:hover {
-    background-color: rgb(141, 141, 141); /* Slightly lighter shade of the original background */
-    box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.65); /* More pronounced shadow */
-    transform: scale(1.05); /* Increase size by 5% */
+    background-color: rgb(141, 141, 141);
+    /* Slightly lighter shade of the original background */
+    box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.65);
+    /* More pronounced shadow */
+    transform: scale(1.05);
+    /* Increase size by 5% */
 }
 
 .button-favorite {
@@ -87,9 +92,12 @@
 }
 
 .button-favorite:hover {
-    background-color: rgb(199, 23, 23); /* Slightly lighter shade of the original background */
-    box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.65); /* More pronounced shadow */
-    transform: scale(1.05); /* Increase size by 5% */
+    background-color: rgb(199, 23, 23);
+    /* Slightly lighter shade of the original background */
+    box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.65);
+    /* More pronounced shadow */
+    transform: scale(1.05);
+    /* Increase size by 5% */
 }
 
 @media (max-width: 991px) {
@@ -111,11 +119,55 @@
 }
 
 .button-right:hover {
-    background-color: rgb(199, 23, 23); /* Slightly lighter shade of the original background */
-    box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.65); /* More pronounced shadow */
-    transform: scale(1.05); /* Increase size by 5% */
+    background-color: rgb(199, 23, 23);
+    /* Slightly lighter shade of the original background */
+    box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.65);
+    /* More pronounced shadow */
+    transform: scale(1.05);
+    /* Increase size by 5% */
 }
 
-.e-input-group .e-input-group-icon:last-child, .e-input-group.e-control-wrapper .e-input-group-icon:last-child {
+.e-input-group .e-input-group-icon:last-child,
+.e-input-group.e-control-wrapper .e-input-group-icon:last-child {
     font-size: 15px;
 }
+
+.e-calendar .e-header .e-title,
+.e-bigger.e-small .e-calendar .e-header .e-title {
+    color: black;
+    font-size: 16px;
+}
+
+.calendar table {
+    background-color: #fff;
+    border-collapse: collapse;
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-top: 5px;
+}
+
+.calendar table th,
+.calendar table td {
+    text-align: center;
+    padding: 8px;
+    font: 10px "Inria Serif", sans-serif;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.calendar table th {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+.calendar table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.calendar table tr:hover {
+    background-color: #f1f1f1;
+}
+
+
+

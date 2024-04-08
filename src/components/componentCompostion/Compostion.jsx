@@ -68,8 +68,8 @@ const Compostion = () => {
                     />
                     {/* </div> */}
                     <div class="button-container">
-                        <button class="button" onClick={matchByCurrentLocation}>match by current Location</button>
-                        <button class="button button-favorite">like</button>
+                        <button class="button" onClick={matchByCurrentLocation}>Match by current Location</button>
+                        <button class="button button-favorite">Like</button>
                         {/* <button class="button button-right">like</button> */}
                     </div>
                 </div>

@@ -20,11 +20,51 @@ const Calendar = (props) => {
       <div class="right-column">
         <div class="calendar">
           <DatePickerComponent
-            cssClass="e-datepicker"
-            placeholder='Enter Date'
+            placeholder='Chose a date to go'
             format={"dd-MMM-yy"}
-            onChange={onDateChange} 
+            onChange={onDateChange}
+            strictMode={true}
+            allowEdit={false}
+            max={new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate())}
           ></DatePickerComponent>
+          <table>
+            <tr>
+              <th>Track</th>
+              <th>Artist</th>
+            </tr>
+            <tr>
+              <td>Requiem: II. Dies irae</td>
+              <td>Giuseppe Verdi</td>
+            </tr>
+            <tr>
+              <td>Requiem: II. Dies irae</td>
+              <td>Giuseppe Verdi</td>
+            </tr>
+            <tr>
+              <td>Requiem: II. Dies irae</td>
+              <td>Giuseppe Verdi</td>
+            </tr>
+            <tr>
+              <td>Requiem: II. Dies irae</td>
+              <td>Giuseppe Verdi</td>
+            </tr>
+            <tr>
+              <td>Requiem: II. Dies irae</td>
+              <td>Giuseppe Verdi</td>
+            </tr>
+            <tr>
+              <td>Requiem: II. Dies irae</td>
+              <td>Giuseppe Verdi</td>
+            </tr>
+            <tr>
+              <td>Requiem: II. Dies irae</td>
+              <td>Giuseppe Verdi</td>
+            </tr>
+            <tr>
+              <td>Requiem: II. Dies irae</td>
+              <td>Giuseppe Verdi</td>
+            </tr>
+          </table>
         </div>
       </div>
     </div>
