@@ -1,8 +1,16 @@
 # Music To Your Weather
+***A Course Project for IT5007 AY23/24 Semester 2***
+Group Member
+| Name | Matriculation No. | Email |
+|-|-|-|
+| Li Zhu | A0279534R | E1143347@u.nus.edu |
+| Lin Sitian | A0279511B | E1143324@u.nus.edu |
+| Zhao Xudong | A0276537R   | E1132270@u.nus.edu |
+
+---
 *Yes, there're tons of weather apps on the market.*
 
 *But this might be one of the first apps to **match the music you listen to with the forecasted weather.***
-
 
 ## What's 'Music to Your Weather'?
 ### Inspirations
@@ -15,6 +23,21 @@ The inspiration for **Music to Your Weather (MTYW)** comes from such scenarios t
 Starting with this observation, this web application offers to match music, a popular form of art creation to recreate scenes and feelings in the audience, with the forecasted weather.
 
 Just launch the web app, and the matching song would pop-up to you with the latest weather forecast. So you know not only **if it's going to rain or not**, but you'll be confident that **you'll have the perfect song for that special moment in life.**
+
+### Feature List
+- Location:
+    - Get current location;
+    - Show current location on Google Maps;
+- Weather Forecast:
+    - Get 2-hr weather forecast for current location;
+- Song Recommendation:
+    - Get recommended track from Spotify based on local weather;
+- Favorite Songs:
+    - Save a recommended song to the favorite list;
+- Recommnedation History:
+    - View previous recommnedations for that day (for historical dates);
+    - View saved songs;
+
 
 ### Problem & Analysis
 As stated in the ***inspiration*** section, this web app provides a tentative solution to the everyday scenario of finding suitable music for a given weather condition.
@@ -53,13 +76,67 @@ To tackle the second challenge, we collected a sample weather dataset and analyz
 
 
 ### Significance of this Project
+This web app truly blends technology, music, and environmental sensitivity to deliver a unique and personal experience to users. By utilizing real-time weather data to tailor music recommnedations, our web app connects the emotional tone of music with the ambient conditions, providing a more immersive music experience.
 
+This project not only enriches the way people discover music but also demonstrates the power of data analytics and machine learning in transforming everyday entertainment. It also opens new avenues for artists to connect with audiences in moments directly influenced by their surroundings, potentially reshaping how music is promoted and consumed.
+
+Over the course of the next 2, 5, and 10 years, we are confident that our product will maintain its relevance. Music, as a profound expression of art, plays an integral role in human culture, and the demand for curated musical experiences is unlikely to diminish.
+
+Certainly, advancements in artificial intelligence will enhance the capability to analyze and interpret the tonal and emotional aspects of music. We have designed our web application with a ***modular architecture*** and an ***emphasis on upgradability***, ensuring that it can seamlessly integrate state-of-the-art methodologies for understanding musical content. This strategic design allows us to perpetually update and refine our app, keeping pace with advancements in the field and continually enhancing user experience.
 ## Solution Architecture
 
 ### Prototype
-![](assets/img/Prototype.png)
+The depicted prototype delineates the structure of our web application, which synthesizes three principal modules: the map module (top-left quadrant), the calendar module (top-right quadrant), and an integrated Spotify module for song preview and playback. This is complemented by a streamlined assortment of interactive elements such as buttons and input fields.
+
+The user interface is engineered to adhere to principles of minimalism and flat design, ensuring a low cognitive load. Interface elements are strategically positioned to facilitate intuitive navigation and quick user acclimatization to the application's full suite of features.
+
+The application adopts a single-page architecture that interfaces seamlessly with a robust backend database, driving the entire user experience. This architecture enables efficient data retrieval and manipulation, ensuring a responsive and cohesive interaction environment.
+![](assets/Prototype.png)
 
 ### Front-end & Back-end Modules
-![](assets/img/IT5007%20Group%20Project.png)
+The following mind map shows the modularized design of the whole system for the Music to Your Weather Web app.
+
+Web APIs used are shown in **bold**.
+
+![](assets/IT5007%20Group%20Project.png)
+
+### Database Schema
+
+
+## Legal Aspects / Others
+
 
 ## Competition Analysis
+On the market, there are two products that shares similar inspirations with our web app, namely, [Climatune](https://www.awwwards.com/sites/climatune) and [WeatherTunes](https://weathertunes.com).
+
+The former is a temporary campaign launched by Spotify in collaboration with AccuWeather, while the latter is a smartphone app that's available on iOS only.
+
+First, let's look at the case of Climatune.
+
+![Climatune Screenshot](/assets/awwwards-Climatune-1.jpg)
+
+Obviously, the official collaboration by Spotify and AccuWeather could have higher priority in accessing the Spotify API to get song recommendations, or even leveraging some private APIs that's not publicly accessible to non-in-house developers to make the results more satisifying.
+
+However, it is only a 2017 temporary campaign to boost brand presence, and so far, it is not accessible anymore.
+
+Then, let's look at WeatherTunes.
+
+From its website we can tell, it utilizes the Dark Sky api for weather and adjusts the music based on real-time weather, focusing on tempo and mood throughout the day. It offers genre selection and a learning algorithm that refines music choices according to user preferences over time. WeatherTunes emphasizes a no-repeat policy for song selection and leverages YouTube videos for playback.
+
+One major drawback of the app is, it is only available on iOS, makeing it impossible to access for users of smartphones based on different OSs or desktop users. And while evaluating the app, the experience was always satisfying for us, as the server did not always give response.
+
+Apart from those issues regarding app implementation, another shortcoming of the app is that it does not show the results on a map, so that the user does not feel as connected to the physical world out there. Also, it is not possible to go back in time and discover about past recommendations.
+
+Compared with these two solutions, our web app has the following advantages:
+
+1. **Comprehensive Modules**: With a map module, calendar module, and Spotify module, our app offers a more detailed user experience that allows for a variety of interactions, possibly more than what WeatherTunes and Climatune may offer.
+2. **Historical Weather Data**: Our app utilizes historical weather data to generate historical recommendations, creating a more personalized and nostalgic experience compared to competitors.
+3. **User History and Preferences**: With a back-end database that stores user preferences and history, our app could potentially be upgraded to offer more personalized recommendations over time, learning from past interactions.
+4. **One-Page Cross-Platform App Experience**: The simplicity of a single-page application can result in faster load times and a smoother user experience, which is advantageous for user retention. Also, it's web-based experience means it is easy to adapt the app for varying device types.
+
+Challenges faced by our web app compared to other products on the market may include:
+1. **Resource Limitations**: Our app currently depends on the Spotify API for song features, and the rate limitation imposed by Spotify may potentially impact the growth of our user base if this product should be commercialized.
+2. **Brand Recognition and User Base**: Unlike Climatune, which obviously benefitted from the branding of Spotify and AccuWeather, our new web app has to build its brand recognition from ground up, which could be challenging. Also, an existing user-base means precious user behavior data that could be used to train the recommendation model.
+3. **Monetization Strategy**: A sustainable revenue model that can compete with these established services, e.g. Spotify, needs to be found if the app is to be commercialized and put into long-term operation.
+
+In conclusion, while there are similar products on the market, our design offers better expandability and a more comprehensive experiences. However, challenges like building a user base and competing with established players need to be addressed to ensure the app's long-term viability and success in the market.
