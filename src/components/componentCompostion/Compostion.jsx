@@ -39,6 +39,14 @@ const Compostion = () => {
     const matchByCurrentLocation = () => {
         setMatchLocationClicked(!matchLocationClicked); // toggle the button state
     };
+    /**
+     * 点击like按钮
+     * 希望获得三个变量，track, artist, date
+     * date格式为2024-04-10
+     */
+    const addLikeMusic = () => {
+        
+    };
 
     return (
         <div>
@@ -69,7 +77,7 @@ const Compostion = () => {
                     {/* </div> */}
                     <div class="button-container">
                         <button class="button" onClick={matchByCurrentLocation}>Match by current Location</button>
-                        <button class="button button-favorite">Like</button>
+                        <button class="button button-favorite" onClick={addLikeMusic}>Like</button>
                         {/* <button class="button button-right">like</button> */}
                     </div>
                 </div>
