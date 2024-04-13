@@ -1,0 +1,16 @@
+type LikedMusic{
+    _id: ID!
+    track: String!
+    artist: String!
+    date: String!
+}
+
+type Query {
+	getLikes(date: String!):[LikedMusic]
+}
+
+
+type Mutation {
+	addLike(track: String!,artist: String!, date: String!): Boolean!
+    deleteLike(track: String!,artist: String!, date: String!):Boolean!
+}
