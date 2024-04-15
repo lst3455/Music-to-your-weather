@@ -71,7 +71,7 @@ const Calendar = (props) => {
     console.log("likeArtist: " + props.musicArtistToCalendar); // artist
     let date = new Date().toISOString().split('T')[0];
     console.log("likeDate: " + date); // date
-    // 在此处完成函数来添加数据，并重新获取该选择日期下的数据
+    // 在此处完成函数来添加数据(每日最大插入八条喜欢的歌曲，插入前需要先确认是否还有空位插入)，并重新获取该选择日期下的数据
   }, [props.addLikeMusicClickedToCalendar]);
 
   const onDateChange = async (e) => {
