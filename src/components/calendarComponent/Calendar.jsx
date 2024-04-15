@@ -121,12 +121,10 @@ const Calendar = (props) => {
 
     return (
       <tr>
-        <td>{truncateText(props.track, 20)}</td>
-        <td>{truncateText(props.artist, 20)}</td>
-        <td>
-          <button onClick={handleDelete} className='button-delete'>
-            ✖
-          </button>
+        <td className="track">{truncateText(props.track, 20)}</td>
+        <td className="artist">{truncateText(props.artist, 14)}</td>
+        <td className="delete">
+          <button onClick={handleDelete} className='button-delete'>✖</button>
         </td>
       </tr>
     );
@@ -137,9 +135,9 @@ const Calendar = (props) => {
       <table>
         <thead>
           <tr>
-            <th>Track</th>
-            <th>Artist</th>
-            <th>Delete</th>
+            <th className="track">Track</th>
+            <th className="artist">Artist</th>
+            <th className="delete">Delete</th>
           </tr>
         </thead>
         <tbody>

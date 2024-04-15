@@ -19,6 +19,7 @@
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.35);
     /* height: 339px; */
     height: 330px;
+    width: 311.55px;
     padding: 10px;
 
     /* justify-content: center;
@@ -142,15 +143,14 @@
     border-collapse: collapse;
     width: 100%;
     border-radius: 10px;
-    /* box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); */
     border-style: solid;
     border-width: 1px;
     overflow: hidden;
     margin-top: 5px;
+    table-layout: fixed; /* Ensures the columns width are fixed */
 }
 
-.calendar table th,
-.calendar table td {
+.calendar table th, .calendar table td {
     text-align: center;
     padding: 8px;
     font: 10px "Inria Serif", sans-serif;
@@ -168,6 +168,18 @@
 
 .calendar table tr:hover {
     background-color: #f1f1f1;
+}
+
+.calendar table th.track, .calendar table td.track {
+    width: 50%; /* Larger space for track names */
+}
+
+.calendar table th.artist, .calendar table td.artist {
+    width: 35%; /* Medium space for artist names */
+}
+
+.calendar table th.delete, .calendar table td.delete {
+    width: 15%; /* Smallest space for delete button */
 }
 
 .button-delete {
