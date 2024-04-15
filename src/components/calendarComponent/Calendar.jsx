@@ -107,7 +107,7 @@ const Calendar = (props) => {
     const truncateText = (text, maxLength) => {
       return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
     };
-    // delete函数传入track和artist和date，用于删除对应数据库中的数据
+    // 传入track和artist和date,用于删除对应数据库中的数据
     const handleDelete = () => {
       console.log("deleteTrack: " + props.track); // track
       console.log("deleteArtist: " + props.artist); // artist
