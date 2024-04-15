@@ -37,7 +37,7 @@ const Compostion = () => {
     useEffect(() => {
         console.log("LatitudeFromPanel: " + LatitudeFromPanel);
         console.log("LongitudeFromPanel: " + LongitudeFromPanel);
-    }, [{ LatitudeFromPanel, LongitudeFromPanel }]);
+    }, [LatitudeFromPanel, LongitudeFromPanel]);
 
     const matchByCurrentLocation = () => {
         setMatchLocationClicked(!matchLocationClicked); // toggle the button state
@@ -80,8 +80,8 @@ const Compostion = () => {
                 <div class="right-column">
                     {/* <div class="calendar"> */}
                     <Calendar
-                        LatitudeFromPanelToCalendar={LatitudeFromPanel}
-                        LongitudeFromPanelToCalendar={LongitudeFromPanel}
+                        // LatitudeFromPanelToCalendar={LatitudeFromPanel}
+                        // LongitudeFromPanelToCalendar={LongitudeFromPanel}
                         addLikeMusicClickedToCalendar={addLikeMusicClicked}
                         musicNameToCalendar={musicName}
                         musicArtistToCalendar={musicArtist}

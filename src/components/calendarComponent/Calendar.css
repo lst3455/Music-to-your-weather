@@ -174,7 +174,7 @@
     background-color: rgba(83, 83, 83, 1);
     border: none;
     border-radius: 5px;
-    padding: 2px 5px;
+    padding: 1px 7px;
     cursor: pointer;
     transition: transform 0.3s, background-color 0.2s;
     outline: none;
