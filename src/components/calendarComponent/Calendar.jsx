@@ -45,6 +45,24 @@ async function getLikesByDate(date) {
   return data.getLikes;
 }
 
+async function addLikeMusic(track, artist, date) {
+    const query = 
+      `mutation addLike($track: String!, $artist: String!, $date: String!) {
+        addLike(track: $track, artist: $artist, date: $date)
+      }`;
+    const data = await graphQLFetch(query, { track, artist, date });
+    return data.addLike;
+}
+
+async function deleteLikeMusic(track, artist, date) {
+  const query = 
+    `mutation deleteLike($track: String!, $artist: String!, $date: String!) {
+      deleteLike(track: $track, artist: $artist, date: $date)
+    }`;
+  const data = await graphQLFetch(query, { track, artist, date });
+  return data.deleteLike;
+}
+
 //日历组件
 const Calendar = (props) => {
   const getInitialDate = () => {
@@ -88,18 +106,36 @@ const Calendar = (props) => {
 
   // 传入track和artist和date，用于添加对应数据库中的数据
   useEffect(() => {
-    if (props.addLikeMusicClickedToCalendar === 0) {
-      return;
-    }
-    console.log("likeTrack: " + props.musicNameToCalendar); // track
-    console.log("likeArtist: " + props.musicArtistToCalendar); // artist
-
-    const newDate = new Date(selectedDate);
-    newDate.setDate(newDate.getDate() + 1); // 将日期加一天
-    const formattedDate = newDate.toISOString().split('T')[0]; // 格式化日期为 YYYY-MM-DD
-    console.log("likeDate: " + formattedDate); // date
-    // 在此处完成函数来添加数据(每日最大插入八条喜欢的歌曲，插入前需要先确认是否还有空位插入)，并重新获取该选择日期下的数据
+    const addLike = async () => {
+      console.log("likeTrack: " + props.musicNameToCalendar); // track
+      console.log("likeArtist: " + props.musicArtistToCalendar); // artist
+  
+      const newDate = new Date(selectedDate);
+      newDate.setDate(newDate.getDate() + 1); // 将日期加一天
+      const formattedDate = newDate.toISOString().split('T')[0]; // 格式化日期为 YYYY-MM-DD
+      console.log("likeDate: " + formattedDate); // date
+      // 在此处完成函数来添加数据(每日最大插入八条喜欢的歌曲，插入前需要先确认是否还有空位插入)，并重新获取该选择日期下的数据
+      let likes = await getLikesByDate(formattedDate);
+      if (likes.length >= 8) {
+        alert("You can only like 8 songs per day!");
+        return;
+      }
+      //查询当前歌曲是否已经在like
+      for (let i = 0; i < likes.length; i++) {
+        if (likes[i].track === props.musicNameToCalendar && likes[i].artist === props.musicArtistToCalendar) {
+          alert("You have already liked this song today!");
+          return;
+        }
+      }
+  
+      await addLikeMusic(props.musicNameToCalendar, props.musicArtistToCalendar, formattedDate);
+      fetchLikes(formattedDate);
+    };
+  
+    addLike();
+  
   }, [props.addLikeMusicClickedToCalendar]);
+  
 
   const onDateChange = async (e) => {
     // set the selected date to the selectedDate
@@ -111,7 +147,7 @@ const Calendar = (props) => {
       return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
     };
     // 传入track和artist和date,用于删除对应数据库中的数据
-    const handleDelete = () => {
+    const handleDelete = async () => {
       console.log("deleteTrack: " + props.track); // track
       console.log("deleteArtist: " + props.artist); // artist
 
@@ -120,6 +156,8 @@ const Calendar = (props) => {
       const formattedDate = newDate.toISOString().split('T')[0]; // 格式化日期为 YYYY-MM-DD
       console.log("deleteDate: " + formattedDate); // date
       // 在此处完成函数来删除数据，并重新获取该选择日期下的数据
+      await deleteLikeMusic(props.track, props.artist, formattedDate);
+      await fetchLikes(formattedDate);
     };
 
     return (
