@@ -47,43 +47,32 @@ async function getLikesByDate(date) {
 
 //日历组件
 const Calendar = (props) => {
+  const getInitialDate = () => {
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);  // 设置时间为00:00:00:000
+    return now;
+  };
 
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(getInitialDate());
   const [likes, setLikes] = useState([]);
-  const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
 
   useEffect(() => {
+    if (selectedDate === null) {
+      setSelectedDate(getInitialDate());
+      return;
+    }
     console.log("selectedDate: " + selectedDate);
+
+    const newDate = new Date(selectedDate);
+    newDate.setDate(newDate.getDate() + 1); // 将日期加一天
+    const formattedDate = newDate.toISOString().split('T')[0]; // 格式化日期为 YYYY-MM-DD
+
+    console.log("Adjusted Date: " + formattedDate); // 打印调整后的日期，用于确认
+    fetchLikes(formattedDate);
   }, [selectedDate]);
 
-  // 传入track和artist和date，用于删除对应数据库中的数据
-  useEffect(() => {
-    console.log("deleteTrack: " + props.track); // track
-    console.log("deleteArtist: " + props.artist); // artist
-    let date = selectedDate.toISOString().split('T')[0];
-    console.log("deleteDate: " + date); // date
-    // 在此处完成函数来删除数据，并重新获取该选择日期下的数据
-  }, [deleteButtonClicked]);
-
-  // 传入track和artist和date，用于添加对应数据库中的数据
-  useEffect(() => {
-    console.log("likeTrack: " + props.musicNameToCalendar); // track
-    console.log("likeArtist: " + props.musicArtistToCalendar); // artist
-    let date = new Date().toISOString().split('T')[0];
-    console.log("likeDate: " + date); // date
-    // 在此处完成函数来添加数据(每日最大插入八条喜欢的歌曲，插入前需要先确认是否还有空位插入)，并重新获取该选择日期下的数据
-  }, [props.addLikeMusicClickedToCalendar]);
-
-  const onDateChange = async (e) => {
-    // set the selected date to the selectedDate
-    setSelectedDate(e.value);
-    //截取日期   截取后的格式为2024-04-10，在数据库中直接存储该字符串
-    let date = e.value.toISOString().split('T')[0];
-    //将截取的日期加上一天，bug？
-    date = new Date(date);
-    date.setDate(date.getDate() + 1);
-    date = date.toISOString().split('T')[0];
-    console.log(date);
+  //查询数据库函数
+  const fetchLikes = async (date) => {
     //按照date查询当天的like并返回，date格式为2024-04-10
     let likes = await getLikesByDate(date);
     /**
@@ -97,13 +86,37 @@ const Calendar = (props) => {
     setLikes(likes);
   };
 
+  // 传入track和artist和date，用于添加对应数据库中的数据
+  useEffect(() => {
+    console.log("likeTrack: " + props.musicNameToCalendar); // track
+    console.log("likeArtist: " + props.musicArtistToCalendar); // artist
+
+    const newDate = new Date(selectedDate);
+    newDate.setDate(newDate.getDate() + 1); // 将日期加一天
+    const formattedDate = newDate.toISOString().split('T')[0]; // 格式化日期为 YYYY-MM-DD
+    console.log("likeDate: " + formattedDate); // date
+    // 在此处完成函数来添加数据(每日最大插入八条喜欢的歌曲，插入前需要先确认是否还有空位插入)，并重新获取该选择日期下的数据
+  }, [props.addLikeMusicClickedToCalendar]);
+
+  const onDateChange = async (e) => {
+    // set the selected date to the selectedDate
+    setSelectedDate(e.value);
+  };
+
   const LikesRows = (props) => {
     const truncateText = (text, maxLength) => {
       return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
     };
     // delete函数传入track和artist和date，用于删除对应数据库中的数据
     const handleDelete = () => {
-      setDeleteButtonClicked(!deleteButtonClicked); // toggle the button state(用于触发重新获取数据)
+      console.log("deleteTrack: " + props.track); // track
+      console.log("deleteArtist: " + props.artist); // artist
+
+      const newDate = new Date(selectedDate);
+      newDate.setDate(newDate.getDate() + 1); // 将日期加一天
+      const formattedDate = newDate.toISOString().split('T')[0]; // 格式化日期为 YYYY-MM-DD
+      console.log("deleteDate: " + formattedDate); // date
+      // 在此处完成函数来删除数据，并重新获取该选择日期下的数据
     };
 
     return (
@@ -148,7 +161,7 @@ const Calendar = (props) => {
       <div class="right-column">
         <div class="calendar">
           <DatePickerComponent
-            placeholder='Chose a date to go'
+            placeholder='Chose a date to go(default today)'
             format={"dd-MMM-yy"}
             onChange={onDateChange}
             strictMode={true}
