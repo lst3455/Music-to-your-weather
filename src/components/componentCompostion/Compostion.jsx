@@ -11,6 +11,9 @@ const Compostion = () => {
     const [LatitudeFromPanel, setLatitudeFromPanel] = useState(1.2983117788159964);
     const [LongitudeFromPanel, setLongitudeFromPanel] = useState(103.77674571647856);
     const [matchLocationClicked, setMatchLocationClicked] = useState(false);
+    const [addLikeMusicClicked, setAddLikeMusicClicked] = useState(false);
+    const [musicName, setMusicName] = useState("가을 동화 Main Title");
+    const [musicArtist, setMusicArtist] = useState("최태완");
 
     const getRegionFromMap = (data) => {
         setRegionFromMap(data);
@@ -39,13 +42,19 @@ const Compostion = () => {
     const matchByCurrentLocation = () => {
         setMatchLocationClicked(!matchLocationClicked); // toggle the button state
     };
+
+    useEffect(() => {
+        console.log("currentMusicName: " + musicName);
+        console.log("currentMusicArtist: " + musicArtist);
+    }, [musicName, musicArtist]);
+
     /**
      * 点击like按钮
      * 希望获得三个变量，track, artist, date
      * date格式为2024-04-10
      */
     const addLikeMusic = () => {
-        
+        setAddLikeMusicClicked(!addLikeMusicClicked); // toggle the button state
     };
 
     return (
@@ -73,6 +82,9 @@ const Compostion = () => {
                     <Calendar
                         LatitudeFromPanelToCalendar={LatitudeFromPanel}
                         LongitudeFromPanelToCalendar={LongitudeFromPanel}
+                        addLikeMusicClickedToCalendar={addLikeMusicClicked}
+                        musicNameToCalendar={musicName}
+                        musicArtistToCalendar={musicArtist}
                     />
                     {/* </div> */}
                     <div class="button-container">
@@ -87,6 +99,8 @@ const Compostion = () => {
                     weatherFromMapToMusic={weatherFromMap}
                     regionFromMapToMusic={regionFromMap}
                     matchLocationClicked={matchLocationClicked}
+                    setMusicNameToComp={setMusicName}
+                    setMusicArtistToComp={setMusicArtist}
                 />
             </div>
         </div>

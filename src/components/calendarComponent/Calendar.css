@@ -168,5 +168,19 @@
     background-color: #f1f1f1;
 }
 
+.button-delete {
+    font-size: 5px;
+    color: white;
+    background-color: rgba(83, 83, 83, 1);
+    border: none;
+    border-radius: 5px;
+    padding: 2px 5px;
+    cursor: pointer;
+    transition: transform 0.3s, background-color 0.2s;
+    outline: none;
+}
 
-
+.button-delete:hover {
+    transform: scale(1.2);
+    background-color: rgb(141, 141, 141);
+}

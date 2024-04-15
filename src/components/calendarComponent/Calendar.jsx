@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { DatePickerComponent } from '@syncfusion/ej2-react-calendars';
 import './Calendar.css';
 
+
 //http请求相关函数
 const dateRegex = new RegExp('^\\d\\d\\d\\d-\\d\\d-\\d\\d');
 function jsonDateReviver(key, value) {
@@ -12,7 +13,7 @@ async function graphQLFetch(query, variables = {}) {
   try {
     const response = await fetch('http://localhost:4000/graphql', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ query, variables })
     });
     const body = await response.text();
@@ -44,15 +45,34 @@ async function getLikesByDate(date) {
   return data.getLikes;
 }
 
-
 //日历组件
 const Calendar = (props) => {
 
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [likes, setLikes] = useState([]);
+  const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
 
   useEffect(() => {
     console.log("selectedDate: " + selectedDate);
   }, [selectedDate]);
+
+  // 传入track和artist和date，用于删除对应数据库中的数据
+  useEffect(() => {
+    console.log("deleteTrack: " + props.track); // track
+    console.log("deleteArtist: " + props.artist); // artist
+    let date = selectedDate.toISOString().split('T')[0];
+    console.log("deleteDate: " + date); // date
+    // 在此处完成函数来删除数据，并重新获取该选择日期下的数据
+  }, [deleteButtonClicked]);
+
+  // 传入track和artist和date，用于添加对应数据库中的数据
+  useEffect(() => {
+    console.log("likeTrack: " + props.musicNameToCalendar); // track
+    console.log("likeArtist: " + props.musicArtistToCalendar); // artist
+    let date = new Date().toISOString().split('T')[0];
+    console.log("likeDate: " + date); // date
+    // 在此处完成函数来添加数据，并重新获取该选择日期下的数据
+  }, [props.addLikeMusicClickedToCalendar]);
 
   const onDateChange = async (e) => {
     // set the selected date to the selectedDate
@@ -74,7 +94,54 @@ const Calendar = (props) => {
      * 你可以直接调用getLikesByDate函数，传入datej就行
      */
     console.log(likes);
+    setLikes(likes);
   };
+
+  const LikesRows = (props) => {
+    const truncateText = (text, maxLength) => {
+      return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
+    };
+    // delete函数传入track和artist和date，用于删除对应数据库中的数据
+    const handleDelete = () => {
+      setDeleteButtonClicked(!deleteButtonClicked); // toggle the button state(用于触发重新获取数据)
+    };
+
+    return (
+      <tr>
+        <td>{truncateText(props.track, 20)}</td>
+        <td>{truncateText(props.artist, 20)}</td>
+        <td>
+          <button onClick={handleDelete} className='button-delete'>
+            ✖
+          </button>
+        </td>
+      </tr>
+    );
+  };
+
+  const LikesTable = () => {
+    return (
+      <table>
+        <thead>
+          <tr>
+            <th>Track</th>
+            <th>Artist</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          {likes.length === 0 &&
+            <tr>
+              <td colSpan="3">No like Music</td>
+            </tr>
+          }
+          {likes.map((like, index) => (
+            <LikesRows key={`${like.track}_${index}`} track={like.track} artist={like.artist} />
+          ))}
+        </tbody>
+      </table>
+    );
+  }
 
   return (
     <div>
@@ -88,44 +155,7 @@ const Calendar = (props) => {
             allowEdit={false}
             max={new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate())}
           ></DatePickerComponent>
-          <table>
-            <tr>
-              <th>Track</th>
-              <th>Artist</th>
-            </tr>
-            <tr>
-              <td>Requiem: II. Dies irae</td>
-              <td>Giuseppe Verdi</td>
-            </tr>
-            <tr>
-              <td>Requiem: II. Dies irae</td>
-              <td>Giuseppe Verdi</td>
-            </tr>
-            <tr>
-              <td>Requiem: II. Dies irae</td>
-              <td>Giuseppe Verdi</td>
-            </tr>
-            <tr>
-              <td>Requiem: II. Dies irae</td>
-              <td>Giuseppe Verdi</td>
-            </tr>
-            <tr>
-              <td>Requiem: II. Dies irae</td>
-              <td>Giuseppe Verdi</td>
-            </tr>
-            <tr>
-              <td>Requiem: II. Dies irae</td>
-              <td>Giuseppe Verdi</td>
-            </tr>
-            <tr>
-              <td>Requiem: II. Dies irae</td>
-              <td>Giuseppe Verdi</td>
-            </tr>
-            <tr>
-              <td>Requiem: II. Dies irae</td>
-              <td>Giuseppe Verdi</td>
-            </tr>
-          </table>
+          <LikesTable />
         </div>
       </div>
     </div>

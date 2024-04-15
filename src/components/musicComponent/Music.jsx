@@ -196,6 +196,8 @@ const Music = (props) => {
 
   const [token, setToken] = useState(null);
   const [musicId, setMusicId] = useState("1dsR6YRjQImtq99v7z9nFX");
+  const [musicName, setMusicName] = useState("가을 동화 Main Title");
+  const [musicArtist, setMusicArtist] = useState("최태완");
 
   useEffect(() => {
     const authOptions = {
@@ -230,6 +232,8 @@ const Music = (props) => {
     // console.log(data);
     console.log("new music id is: " + data.tracks[0].id);
     setMusicId(data.tracks[0].id);
+    setMusicName(data.tracks[0].name);
+    setMusicArtist(data.tracks[0].artists[0].name);
   };
 
   useEffect(() => {
@@ -244,6 +248,11 @@ const Music = (props) => {
     // const url = `https://api.spotify.com/v1/recommendations?limit=1&market=SG&seed_genres=pop%2Cedm%2Cclassical%2Calternative%2Crock&min_acousticness=0.5&max_acousticness=0.9&min_tempo=60&max_tempo=90&min_valence=0.6&max_valence=0.9`;
     getMusic(url);
   }, [props.matchLocationClicked]);
+
+  useEffect(() => {
+    props.setMusicNameToComp(musicName);
+    props.setMusicArtistToComp(musicArtist);
+  }, [musicId]);
 
   return (
     <div>
