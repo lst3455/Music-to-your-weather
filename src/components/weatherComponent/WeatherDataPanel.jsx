@@ -231,7 +231,7 @@ const WeatherDataPanel = (props) => {
                                 // props.setLatitudeToComp(latitude);
                                 // props.setLongitudeToComp(longitude);
                             }}
-                        >go
+                        >Go
                         </button>
                     </div>
                 </div>

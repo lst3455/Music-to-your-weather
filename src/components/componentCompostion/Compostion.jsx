@@ -88,7 +88,7 @@ const Compostion = () => {
                     />
                     {/* </div> */}
                     <div class="button-container">
-                        <button class="button" onClick={matchByCurrentLocation}>Match by current Location</button>
+                        <button class="button" onClick={matchByCurrentLocation}>Music To Current Weather</button>
                         <button class="button button-favorite" onClick={addLikeMusic}>Like</button>
                         {/* <button class="button button-right">like</button> */}
                     </div>
