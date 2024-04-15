@@ -175,7 +175,8 @@ const likesDB = [
     { 'track': 'Pictures at an Exhibition (Orch. Ravel): Promenade 1 - Live', 'artist': 'Modest Mussorgsky', 'date': '2024-04-12' },
     { 'track': "Don't Owe You a Thang", 'artist': 'Gary Clark Jr.', 'date': '2024-04-13' },
     { 'track': 'For Emma', 'artist': 'Bon Iver', 'date': '2024-04-14' },
-    { 'track': 'Voodoo Child (Slight Return) - Live', 'artist': 'Stevie Ray Vaughan', 'date': '2024-04-15' }
+    { 'track': 'Voodoo Child (Slight Return) - Live', 'artist': 'Stevie Ray Vaughan', 'date': '2024-04-15' },
+    { 'track': 'Voodoo Child (Slight Return) - Live - test', 'artist': 'Stevie Ray Vaughan', 'date': '2024-04-15' }
 ];
 
 db.like.insertMany(likesDB); // Insert the data into the likes collection

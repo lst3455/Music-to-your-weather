@@ -11,7 +11,7 @@ const Compostion = () => {
     const [LatitudeFromPanel, setLatitudeFromPanel] = useState(1.2983117788159964);
     const [LongitudeFromPanel, setLongitudeFromPanel] = useState(103.77674571647856);
     const [matchLocationClicked, setMatchLocationClicked] = useState(false);
-    const [addLikeMusicClicked, setAddLikeMusicClicked] = useState(false);
+    const [addLikeMusicClicked, setAddLikeMusicClicked] = useState(0);
     const [musicName, setMusicName] = useState("가을 동화 Main Title");
     const [musicArtist, setMusicArtist] = useState("최태완");
 
@@ -54,7 +54,7 @@ const Compostion = () => {
      * date格式为2024-04-10
      */
     const addLikeMusic = () => {
-        setAddLikeMusicClicked(!addLikeMusicClicked); // toggle the button state
+        setAddLikeMusicClicked(addLikeMusic => addLikeMusic + 1); // toggle the button state
     };
 
     return (

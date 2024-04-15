@@ -88,6 +88,9 @@ const Calendar = (props) => {
 
   // 传入track和artist和date，用于添加对应数据库中的数据
   useEffect(() => {
+    if (props.addLikeMusicClickedToCalendar === 0) {
+      return;
+    }
     console.log("likeTrack: " + props.musicNameToCalendar); // track
     console.log("likeArtist: " + props.musicArtistToCalendar); // artist
 
