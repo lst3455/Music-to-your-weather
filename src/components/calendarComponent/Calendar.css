@@ -206,7 +206,7 @@
 .button-play {
     font-size: 5px;
     color: white;
-    background-color: rgba(83, 83, 83, 1);
+    background-color: rgb(54, 104, 179);
     border: none;
     border-radius: 5px;
     padding: 1px 7px;
@@ -217,5 +217,5 @@
 
 .button-play:hover {
     transform: scale(1.2);
-    background-color: rgb(141, 141, 141);
+    background-color: rgb(76, 134, 221);
 }
