@@ -40,6 +40,11 @@ Make sure you're in the project directory, and run the following script to initi
 Upon successful initialization, start the sever:
 * $```npm start```
 
+### Visit Web App
+Once the server is up and running, you can access the MTYW web app by visiting the following url in your browser:
+
+```localhost:3000```
+
 ## What's 'Music to Your Weather'?
 ### Inspirations
 *Have you ever walked in the rain while thinking to yourself, "I wish there's some nice music for me to dance to"?*
