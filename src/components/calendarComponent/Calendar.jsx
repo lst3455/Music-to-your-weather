@@ -37,6 +37,7 @@ async function graphQLFetch(query, variables = {}) {
 async function getLikesByDate(date) {
   const query = `{
     getLikes(date:"${date}"){
+      id
       track
       artist
     }
@@ -45,12 +46,12 @@ async function getLikesByDate(date) {
   return data.getLikes;
 }
 
-async function addLikeMusic(track, artist, date) {
+async function addLikeMusic(id, track, artist, date) {
     const query = 
-      `mutation addLike($track: String!, $artist: String!, $date: String!) {
-        addLike(track: $track, artist: $artist, date: $date)
+      `mutation addLike($id: String!, $track: String!, $artist: String!, $date: String!) {
+        addLike(id: $id, track: $track, artist: $artist, date: $date)
       }`;
-    const data = await graphQLFetch(query, { track, artist, date });
+    const data = await graphQLFetch(query, { id, track, artist, date });
     return data.addLike;
 }
 
@@ -71,8 +72,15 @@ const Calendar = (props) => {
     return now;
   };
 
+  const setMusicIdToComp = props.setMusicIdToComp;
+  const setPlayClickedToComp = props.setPlayClickedToComp;
+  const setMusicIdFromCalendarAfterPlayClickedToComp = props.setMusicIdFromCalendarAfterPlayClickedToComp;
+  const setMusicNameFromCalendarAfterPlayClickedToComp = props.setMusicNameFromCalendarAfterPlayClickedToComp;
+  const setMusicArtistFromCalendarAfterPlayClickedToComp = props.setMusicArtistFromCalendarAfterPlayClickedToComp;
+
   const [selectedDate, setSelectedDate] = useState(getInitialDate());
   const [likes, setLikes] = useState([]);
+  const [playCliked, setPlayClicked] = useState(false);
 
   useEffect(() => {
     if (selectedDate === null) {
@@ -112,6 +120,7 @@ const Calendar = (props) => {
       }
       console.log("likeTrack: " + props.musicNameToCalendar); // track
       console.log("likeArtist: " + props.musicArtistToCalendar); // artist
+      console.log("likeMusicId: " + props.musicIdToCalendar); // id
   
       const newDate = new Date(selectedDate);
       newDate.setDate(newDate.getDate() + 1); // 将日期加一天
@@ -131,7 +140,7 @@ const Calendar = (props) => {
         }
       }
   
-      await addLikeMusic(props.musicNameToCalendar, props.musicArtistToCalendar, formattedDate);
+      await addLikeMusic(props.musicIdToCalendar, props.musicNameToCalendar, props.musicArtistToCalendar, formattedDate);
       fetchLikes(formattedDate);
     };
   
@@ -163,12 +172,28 @@ const Calendar = (props) => {
       await fetchLikes(formattedDate);
     };
 
+    const handlePlay = () => {
+      // 在此处完成函数来播放音乐
+      console.log("PlayMusicId: " + props.id)
+      console.log("PlayMusic: " + props.track);
+      console.log("PlayArtist: " + props.artist);
+      setPlayClicked(!playCliked);
+      setPlayClickedToComp(playCliked);
+
+      setMusicIdFromCalendarAfterPlayClickedToComp(props.id);
+      setMusicNameFromCalendarAfterPlayClickedToComp(props.track);
+      setMusicArtistFromCalendarAfterPlayClickedToComp(props.artist);
+    }
+
     return (
       <tr>
         <td className="track">{truncateText(props.track, 20)}</td>
         <td className="artist">{truncateText(props.artist, 14)}</td>
         <td className="delete">
           <button onClick={handleDelete} className='button-delete'>✖</button>
+        </td>
+        <td>
+          <button onClick={handlePlay} className='button-play'>✔</button>
         </td>
       </tr>
     );
@@ -181,7 +206,8 @@ const Calendar = (props) => {
           <tr>
             <th className="track">Track</th>
             <th className="artist">Artist</th>
-            <th className="delete">Delete</th>
+            <th className="delete">Del</th>
+            <th className="play">Play</th>
           </tr>
         </thead>
         <tbody>
@@ -191,7 +217,7 @@ const Calendar = (props) => {
             </tr>
           }
           {likes.map((like, index) => (
-            <LikesRows key={`${like.track}_${index}`} track={like.track} artist={like.artist} />
+            <LikesRows key={`${like.track}_${index}`} track={like.track} artist={like.artist} id={like.id}/> //Id={like}
           ))}
         </tbody>
       </table>

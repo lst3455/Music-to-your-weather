@@ -14,6 +14,12 @@ const Compostion = () => {
     const [addLikeMusicClicked, setAddLikeMusicClicked] = useState(0);
     const [musicName, setMusicName] = useState("가을 동화 Main Title");
     const [musicArtist, setMusicArtist] = useState("최태완");
+    const [musicId, setMusicId] = useState("1dsR6YRjQImtq99v7z9nFX");
+    // const [musicIdFromCalendar, setMusicIdFromCalendar] = useState("1dsR6YRjQImtq99v7z9nFX");
+    const [playClickedFromCalendar, setPlayClickedFromCalendar] = useState(0);
+    const [musicIdFromCalendarAfterPlayClicked, setMusicIdFromCalendarAfterPlayClicked] = useState("1dsR6YRjQImtq99v7z9nFX");
+    const [musicNameFromCalendarAfterPlayClicked, setMusicNameFromCalendarAfterPlayClicked] = useState("가을 동화 Main Title");
+    const [musicArtistFromCalendarAfterPlayClicked, setMusicArtistFromCalendarAfterPlayClicked] = useState("최태완");
 
     const getRegionFromMap = (data) => {
         setRegionFromMap(data);
@@ -46,7 +52,8 @@ const Compostion = () => {
     useEffect(() => {
         console.log("currentMusicName: " + musicName);
         console.log("currentMusicArtist: " + musicArtist);
-    }, [musicName, musicArtist]);
+        console.log("currentMusicId: " + musicId);
+    }, [musicName, musicArtist, musicId]);
 
     /**
      * 点击like按钮
@@ -85,6 +92,11 @@ const Compostion = () => {
                         addLikeMusicClickedToCalendar={addLikeMusicClicked}
                         musicNameToCalendar={musicName}
                         musicArtistToCalendar={musicArtist}
+                        musicIdToCalendar={musicId}
+                        setPlayClickedToComp={setPlayClickedFromCalendar}
+                        setMusicIdFromCalendarAfterPlayClickedToComp={setMusicIdFromCalendarAfterPlayClicked}
+                        setMusicNameFromCalendarAfterPlayClickedToComp={setMusicNameFromCalendarAfterPlayClicked}
+                        setMusicArtistFromCalendarAfterPlayClickedToComp={setMusicArtistFromCalendarAfterPlayClicked}
                     />
                     {/* </div> */}
                     <div class="button-container">
@@ -101,6 +113,11 @@ const Compostion = () => {
                     matchLocationClicked={matchLocationClicked}
                     setMusicNameToComp={setMusicName}
                     setMusicArtistToComp={setMusicArtist}
+                    setMusicIdToComp={setMusicId}
+                    musicIdFromCalendarToMusic={musicIdFromCalendarAfterPlayClicked}
+                    musicNameFromCalendarToMusic={musicNameFromCalendarAfterPlayClicked}
+                    musicArtistFromCalendarToMusic={musicArtistFromCalendarAfterPlayClicked}
+                    playClickedFromCalendarToMusic={playClickedFromCalendar}
                 />
             </div>
         </div>

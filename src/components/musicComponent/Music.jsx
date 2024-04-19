@@ -252,7 +252,17 @@ const Music = (props) => {
   useEffect(() => {
     props.setMusicNameToComp(musicName);
     props.setMusicArtistToComp(musicArtist);
+    props.setMusicIdToComp(musicId);
   }, [musicId]);
+
+  useEffect(() => {
+    console.log("musicIdFromCalendar: " + props.musicIdFromCalendarToMusic);
+    if (props.playClickedFromCalendarToMusic !== 0 && props.musicIdFromCalendarToMusic) {
+      setMusicId(props.musicIdFromCalendarToMusic);
+      setMusicName(props.musicNameFromCalendarToMusic);
+      setMusicArtist(props.musicArtistFromCalendarToMusic);
+    }
+  }, [props.playClickedFromCalendarToMusic]);
 
   return (
     <div>

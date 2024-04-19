@@ -171,15 +171,19 @@
 }
 
 .calendar table th.track, .calendar table td.track {
-    width: 50%; /* Larger space for track names */
+    width: 45%; /* Larger space for track names */
 }
 
 .calendar table th.artist, .calendar table td.artist {
-    width: 35%; /* Medium space for artist names */
+    width: 37.5%; /* Medium space for artist names */
 }
 
 .calendar table th.delete, .calendar table td.delete {
-    width: 15%; /* Smallest space for delete button */
+    width: 7.5%; /* Smallest space for delete button */
+}
+
+.calendar table th.play, .calendar table td.play {
+    width: 10%; /* Smallest space for delete button */
 }
 
 .button-delete {
@@ -195,6 +199,23 @@
 }
 
 .button-delete:hover {
+    transform: scale(1.2);
+    background-color: rgb(141, 141, 141);
+}
+
+.button-play {
+    font-size: 5px;
+    color: white;
+    background-color: rgba(83, 83, 83, 1);
+    border: none;
+    border-radius: 5px;
+    padding: 1px 7px;
+    cursor: pointer;
+    transition: transform 0.3s, background-color 0.2s;
+    outline: none;
+}
+
+.button-play:hover {
     transform: scale(1.2);
     background-color: rgb(141, 141, 141);
 }

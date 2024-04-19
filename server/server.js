@@ -10,7 +10,8 @@ let db;//Variable that points to the real DB.
 
 async function addLike(_, args){
     console.log(args.track);
-    const result = await db.collection('like').insertOne({track: args.track,artist: args.artist,date:args.date});
+    console.log(args.id);
+    const result = await db.collection('like').insertOne({id: args.id,track: args.track,artist: args.artist,date:args.date});
     return true;
 }
 async function getLikes(_, args) {
