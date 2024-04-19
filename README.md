@@ -12,6 +12,34 @@ Group Member
 
 *But this might be one of the first apps to **match the music you listen to with the forecasted weather.***
 
+## Deployment Instructions
+### Clone Project
+To begin with, clone this project to your local environment with the following git command:
+* $```git clone <git url>```
+
+### Install Dependencies and Node
+Upon Successful download, execute the following command in your terminal to install all dependencies:
+* $```npm install```
+
+This project requires on **Node v20.11.1**, you can use the following command to check your local node version:
+* $```node -v```
+
+If it's not the target version, you can install the required version of Node by:
+* $```nvm install v20.11.1```
+
+Upon successful installation, do the version check again to confirm the target Node version is currently in use, or try the following command to switch Node version:
+* $```nvm use v20.11.1```
+
+### Initialize and Run the Project
+First, start MongoDB:
+* $```systemctl start mongod```
+
+Make sure you're in the project directory, and run the following script to initialize the databse:
+* $```mongo music scripts/init.mongo.js```
+
+Upon successful initialization, start the sever:
+* $```npm start```
+
 ## What's 'Music to Your Weather'?
 ### Inspirations
 *Have you ever walked in the rain while thinking to yourself, "I wish there's some nice music for me to dance to"?*
@@ -27,7 +55,8 @@ Just launch the web app, and the matching song would pop-up to you with the late
 ### Feature List
 - Location:
     - Get current location;
-    - Show current location on Google Maps;
+    - Manually input latitude & longitude to specify a location;
+    - Show the location on Google Maps;
 - Weather Forecast:
     - Get 2-hr weather forecast for current location;
 - Song Recommendation:
@@ -37,6 +66,7 @@ Just launch the web app, and the matching song would pop-up to you with the late
 - Recommnedation History:
     - View previous recommnedations for that day (for historical dates);
     - View saved songs;
+    - Remove a saved song;
 
 
 ### Problem & Analysis
@@ -100,11 +130,49 @@ Web APIs used are shown in **bold**.
 
 ![](assets/IT5007%20Group%20Project.png)
 
-### Database Schema
+### Database & Schema
+To save the liked songs, this project uses `MongoDB` for back-end database implementation. The liked songs are stored in the `like` collection of the `music` db.
 
+The schema for `LikedMusic` is shown as below:
+
+```graphql
+type LikedMusic{
+    _id: ID!
+    track: String!
+    artist: String!
+    date: String!
+}
+```
+This type represents a music track that a user has liked.
+- Fields:
+    - **_id:** A unique identifier for the like entry. It is of type ID and is non-nullable, meaning every like must have an ID.
+    - **track:** A string that represents the name of the track. This field is non-nullable.
+    - **artist:** A string representing the name of the artist of the track. This field is also non-nullable.
+    - **date:** A string indicating the date when the track was liked. It is also non-nullable and presumably stores date data in string format.
+
+A `query` operation and 2 `mutation` operations have also been defined to manipulate the databse:
+
+```graphql
+type Query {
+	getLikes(date: String!):[LikedMusic]
+}
+
+
+type Mutation {
+	addLike(track: String!,artist: String!, date: String!): Boolean!
+    deleteLike(track: String!,artist: String!, date: String!):Boolean!
+}
+```
 
 ## Legal Aspects / Others
+### Open Source Considerations
 
+We are actively exploring the possibility of open-sourcing this project. As part of this process, we are committed to ensuring that the project remains sustainable and retains its value to the community. To protect the project from unauthorized copying and distribution, we are evaluating various strategies, including:
+
+- Implementing a clear and robust licensing agreement that outlines permissible uses of the source code.
+- Incorporating copyright notices and intellectual property acknowledgments where appropriate.
+
+We are committed to openly sharing our recommendation algorithm, as described previously. Although it is in its early stages of development, we believe it can provide valuable insights to those interested in this area of study. This transparency is aimed at fostering collaboration and innovation within the community.
 
 ## Competition Analysis
 On the market, there are two products that shares similar inspirations with our web app, namely, [Climatune](https://www.awwwards.com/sites/climatune) and [WeatherTunes](https://weathertunes.com).
