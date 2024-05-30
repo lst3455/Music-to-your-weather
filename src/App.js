@@ -1,10 +1,12 @@
 
 import "./App.css";
 import Compostion from "./components/componentCompostion/Compostion.jsx";
+import GradientBackground from "./components/background/GradientBackground.jsx";
 
 function App() {
   return (
     <div className="App">
+      <GradientBackground />
       <div class="container">
         <div class="content">
           <div class="top-bar">
