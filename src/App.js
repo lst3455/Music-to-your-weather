@@ -1,7 +1,6 @@
-
 import "./App.css";
 import Compostion from "./components/componentCompostion/Compostion.jsx";
-import GradientBackground from "./components/background/GradientBackground.jsx";
+import GradientBackground from "./components/background/gradientBackground.jsx";
 
 function App() {
   return (
