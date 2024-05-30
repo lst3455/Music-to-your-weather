@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import { GoogleMap, useJsApiLoader, InfoWindow } from "@react-google-maps/api";
 import WeatherDataFetch from "../weatherComponent/WeatherDataFetch";
+import './Map.css';
 
 const defaultLocation = {
     lat: 1.2983117788159964,
