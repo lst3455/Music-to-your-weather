@@ -189,8 +189,8 @@ const getMusicParameters = (weather) => {
   return parameterRanges;
 }
 
-const CLIENT_ID = '7fbe5b73e3164ca092e56625154a4406'; // Spotify Client ID
-const CLIENT_SECRET = '1cf3f5d861b44aca9fb85715b080e86e'; // Spotify Client Secret
+const CLIENT_ID = 'input your Client ID'; // Spotify Client ID
+const CLIENT_SECRET = 'input your Client Secret'; // Spotify Client Secret
 
 const Music = (props) => {
 
