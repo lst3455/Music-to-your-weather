@@ -65,7 +65,7 @@ const Map = (props) => {
 
 
     const { isLoaded } = useJsApiLoader({
-        googleMapsApiKey: "AIzaSyBLi-h_l_iWNI6WYMxwgG8dHEl_fad_iDw",
+        googleMapsApiKey: "input your api key",
     });
 
     const [location, setLocation] = useState(defaultLocation);
